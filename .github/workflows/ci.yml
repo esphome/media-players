@@ -10,8 +10,8 @@ jobs:
     strategy:
       matrix:
         file:
-          - project-template-esp32.yaml
-          - project-template-esp8266.yaml
+          - m5stack-atom-echo.yaml
+          - m5stack-atom-speaker-kit.yaml
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2

@@ -1,0 +1,55 @@
+substitutions:
+  name: "m5stack-atom-echo"
+  friendly_name: "M5Stack Atom Echo"
+  wifi_ap_password: ""
+
+esphome:
+  name: "${name}"
+  name_add_mac_suffix: true
+  project:
+    name: m5stack.atom-echo
+    version: "1.0"
+
+esp32:
+  board: m5stack-atom
+  framework:
+    type: arduino
+
+logger:
+api:
+ota:
+
+dashboard_import:
+  package_import_url: github://esphome/media-players/m5stack-atom-echo.yaml@main
+
+wifi:
+  ap:
+    password: "${wifi_ap_password}"
+
+captive_portal:
+
+improv_serial:
+
+media_player:
+  - platform: i2s_audio
+    name: ${friendly_name}
+    dac_type: external
+    i2s_ws_pin: GPIO33
+    i2s_dout_pin: GPIO22
+    i2s_bclk_pin: GPIO19
+    mode: mono
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO39
+      inverted: true
+    name: ${friendly_name} Button
+
+light:
+  - platform: fastled_clockless
+    name: ${friendly_name}
+    pin: GPIO27
+    chipset: SK6812
+    num_leds: 1
+    rgb_order: grb
