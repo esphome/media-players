@@ -14,7 +14,7 @@ jobs:
       name: M5 Stack Atom Echo
       manifest_filename: m5stack-atom-echo-manifest.json
       clean: false
-      esphome_version: beta
+      esphome_version: dev
 
   publish-m5stack-atom-speaker-kit:
     name: Publish M5Stack Atom Speaker Kit

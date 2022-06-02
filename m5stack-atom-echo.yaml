@@ -34,7 +34,7 @@ media_player:
   - platform: i2s_audio
     name: ${friendly_name}
     dac_type: external
-    i2s_ws_pin: GPIO33
+    i2s_lrclk_pin: GPIO33
     i2s_dout_pin: GPIO22
     i2s_bclk_pin: GPIO19
     mode: mono
