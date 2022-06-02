@@ -19,3 +19,4 @@ jobs:
         uses: esphome/build-action@jesserockz-2022-183
         with:
           yaml_file: ${{ matrix.file }}
+          version: dev
