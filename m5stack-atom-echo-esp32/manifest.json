@@ -1,0 +1,9 @@
+{
+  "chipFamily": "ESP32",
+  "parts": [
+    {
+      "path": "m5stack-atom-echo-esp32/m5stack-atom-echo-esp32.bin",
+      "offset": 0
+    }
+  ]
+}
