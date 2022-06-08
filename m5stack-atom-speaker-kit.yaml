@@ -32,6 +32,7 @@ improv_serial:
 
 media_player:
   - platform: i2s_audio
+    id: media_out
     name: ${friendly_name}
     dac_type: external
     i2s_lrclk_pin: GPIO21
@@ -45,6 +46,8 @@ binary_sensor:
       number: GPIO39
       inverted: true
     name: ${friendly_name} Button
+    on_click:
+      - media_player.toggle: media_out
 
 light:
   - platform: fastled_clockless
