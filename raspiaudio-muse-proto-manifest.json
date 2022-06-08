@@ -1,0 +1,17 @@
+{
+  "name": "Raspiaudio Muse Proto",
+  "version": "",
+  "home_assistant_domain": "esphome",
+  "new_install_skip_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "raspiaudio-muse-proto-esp32/raspiaudio-muse-proto-esp32.bin",
+          "offset": 0
+        }
+      ]
+    }
+  ]
+}
