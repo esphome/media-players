@@ -25,3 +25,13 @@ jobs:
       manifest_filename: m5stack-atom-speaker-kit-manifest.json
       clean: false
       esphome_version: beta
+
+  publish-raspiaudio-muse-proto:
+    name: Publish Raspiaudio Muse Proto
+    uses: esphome/workflows/.github/workflows/publish.yml@main
+    with:
+      files: raspiaudio-muse-proto.yaml
+      name: Raspiaudio Muse Proto
+      manifest_filename: raspiaudio-muse-proto-manifest.json
+      clean: false
+      esphome_version: beta

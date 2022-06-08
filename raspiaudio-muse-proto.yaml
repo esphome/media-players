@@ -1,0 +1,65 @@
+substitutions:
+  name: "raspiaudio-muse-proto"
+  friendly_name: "RaspiAudio Muse Proto"
+  wifi_ap_password: ""
+
+esphome:
+  name: "${name}"
+  name_add_mac_suffix: true
+  project:
+    name: raspiaudio.muse-proto
+    version: "1.0"
+
+esp32:
+  board: esp-wrover-kit
+  framework:
+    type: arduino
+
+logger:
+api:
+ota:
+
+dashboard_import:
+  package_import_url: github://esphome/media-players/raspiaudio-muse-proto.yaml@main
+
+wifi:
+  ap:
+    password: "${wifi_ap_password}"
+
+captive_portal:
+
+improv_serial:
+
+media_player:
+  - platform: i2s_audio
+    name: ${friendly_name}
+    dac_type: external
+    i2s_lrclk_pin: GPIO25
+    i2s_dout_pin: GPIO26
+    i2s_bclk_pin: GPIO5
+    mode: mono
+
+switch:
+  - platform: gpio
+    name: "${friendly_name} Power"
+    restore_mode: ALWAYS_ON
+    pin:
+      number: GPIO21
+      inverted: true
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      inverted: true
+    name: ${friendly_name} Button
+    on_click:
+      - media_player.toggle:
+
+light:
+  - platform: fastled_clockless
+    name: ${friendly_name}
+    pin: GPIO22
+    chipset: SK6812
+    num_leds: 1
+    rgb_order: grb

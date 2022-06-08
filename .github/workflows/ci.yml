@@ -12,6 +12,7 @@ jobs:
         file:
           - m5stack-atom-echo.yaml
           - m5stack-atom-speaker-kit.yaml
+          - raspiaudio-muse-proto.yaml
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
