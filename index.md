@@ -15,6 +15,13 @@ You can use the button below to install to the M5Stack Atom Speaker Kit ([M5Stac
 
 <esp-web-install-button manifest="./m5stack-atom-speaker-kit-manifest.json"></esp-web-install-button>
 
+
+# Raspiaudio Muse Proto
+
+You can use the button below to install to the Raspiaudio Muse Proto ([M5Stack Shop](https://raspiaudio.com/produit/muse-proto)) via USB from the browser.
+
+<esp-web-install-button manifest="./raspiaudio-muse-proto-manifest.json"></esp-web-install-button>
+
 --------------------
 
 Affiliated links are used on this website to support [ESPHome](https://esphome.io) development.  
