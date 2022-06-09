@@ -42,11 +42,11 @@ media_player:
 
 switch:
   - platform: gpio
-    name: "${friendly_name} Power"
+    name: "${friendly_name} Mute"
     restore_mode: ALWAYS_ON
     pin:
       number: GPIO21
-      inverted: true
+      inverted: false
 
 binary_sensor:
   - platform: gpio
