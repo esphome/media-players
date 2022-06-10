@@ -100,6 +100,12 @@
           color: #58a6ff;
         }
       }
+      /* Remove this once we add a fifth media player */
+      @media only screen and (min-height: 1000px) {
+        .radios label {
+          max-width: initial;
+        }
+      }
     </style>
     <script
       type="module"
@@ -119,6 +125,10 @@
 
       <div class="radios">
         <label>
+          <input type="radio" name="type" value="raspiaudio-muse-luxe" />
+          <img src="./esp_muse_luxe.png" alt="Raspiaudio ESP Muse Luxe" />
+        </label>
+        <label>
           <input type="radio" name="type" value="raspiaudio-muse-proto" />
           <img src="./esp_muse_proto.png" alt="Raspiaudio ESP Muse Proto" />
         </label>
@@ -135,6 +145,30 @@
       <p class="button-row" align="center">
         <esp-web-install-button class="invisible"></esp-web-install-button>
       </p>
+
+      <div class="hidden info raspiaudio-muse-luxe">
+        <h3>Raspiaudio ESP Muse Luxe</h3>
+        <p>
+          This is a powerful device. If you want to use it solely as a media
+          player, we recommend to use the
+          <a href="https://raspiaudio.github.io/">Squeezelite-ESP32 firmware</a
+          >.
+        </p>
+        <p>Buy</p>
+        <ul>
+          <li>
+            <a href="https://raspiaudio.com/produit/esp-muse-luxe"
+              >Raspiaudio</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://www.amazon.com/gp/product/B09N3S9S29/?&_encoding=UTF8&tag=homeassista0e-20&linkCode=ur2&linkId=71c80756dcd782eba9f1a80dc576c7d3&camp=1789&creative=9325"
+              >Amazon</a
+            >
+          </li>
+        </ul>
+      </div>
 
       <div class="hidden info raspiaudio-muse-proto">
         <h3>Raspiaudio ESP Muse Proto</h3>
