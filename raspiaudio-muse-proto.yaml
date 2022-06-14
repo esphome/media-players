@@ -39,7 +39,9 @@ media_player:
     i2s_dout_pin: GPIO26
     i2s_bclk_pin: GPIO5
     mode: mono
-    mute_pin: GPIO21
+    mute_pin: 
+      number: GPIO21
+      inverted: true
 
 binary_sensor:
   - platform: gpio
