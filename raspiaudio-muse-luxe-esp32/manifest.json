@@ -1,0 +1,9 @@
+{
+  "chipFamily": "ESP32",
+  "parts": [
+    {
+      "path": "raspiaudio-muse-luxe-esp32/raspiaudio-muse-luxe-esp32.bin",
+      "offset": 0
+    }
+  ]
+}
