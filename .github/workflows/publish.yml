@@ -35,3 +35,13 @@ jobs:
       manifest_filename: raspiaudio-muse-proto-manifest.json
       clean: false
       esphome_version: beta
+
+  publish-raspiaudio-muse-luxe:
+    name: Publish Raspiaudio Muse Luxe
+    uses: esphome/workflows/.github/workflows/publish.yml@main
+    with:
+      files: raspiaudio-muse-luxe.yaml
+      name: Raspiaudio Muse Luxe
+      manifest_filename: raspiaudio-muse-luxe-manifest.json
+      clean: false
+      esphome_version: beta

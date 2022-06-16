@@ -1,0 +1,102 @@
+substitutions:
+  name: "raspiaudio-muse-luxe"
+  friendly_name: "RaspiAudio Muse Luxe"
+  wifi_ap_password: ""
+
+esphome:
+  name: "${name}"
+  name_add_mac_suffix: true
+  project:
+    name: raspiaudio.muse-luxe
+    version: "1.0"
+
+esp32:
+  board: esp-wrover-kit
+  framework:
+    type: arduino
+
+logger:
+api:
+ota:
+
+i2c:
+  sda: GPIO18
+  scl: GPIO23
+
+dashboard_import:
+  package_import_url: github://esphome/media-players/raspiaudio-muse-luxe.yaml@main
+
+wifi:
+  ap:
+    password: "${wifi_ap_password}"
+
+captive_portal:
+
+improv_serial:
+
+external_components:
+  - source: github://pr#3552
+    components: [es8388]
+    refresh: 0s
+
+media_player:
+  - platform: i2s_audio
+    name: ${friendly_name}
+    dac_type: external
+    i2s_lrclk_pin: GPIO25
+    i2s_dout_pin: GPIO26
+    i2s_bclk_pin: GPIO5
+    mode: stereo
+    mute_pin:
+      number: GPIO21
+      inverted: true
+
+es8388:
+
+switch:
+  - platform: gpio
+    name: ${friendly_name} Power Control
+    pin:
+      number: GPIO21
+      inverted: True
+    restore_mode: ALWAYS_ON
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO19
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+    name: ${friendly_name} Volume Up
+    on_click:
+      - media_player.volume_up:
+  - platform: gpio
+    pin:
+      number: GPIO32
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+    name: ${friendly_name} Volume Down
+    on_click:
+      - media_player.volume_down:
+  - platform: gpio
+    pin:
+      number: GPIO12
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+    name: ${friendly_name} Play Button
+    on_click:
+      - media_player.toggle:
+
+light:
+  - platform: fastled_clockless
+    name: ${friendly_name}
+    pin: GPIO22
+    chipset: SK6812
+    num_leds: 1
+    rgb_order: grb
