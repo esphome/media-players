@@ -37,6 +37,7 @@ improv_serial:
 external_components:
   - source: github://pr#3552
     components: [es8388]
+    refresh: 0s
 
 media_player:
   - platform: i2s_audio
@@ -46,11 +47,11 @@ media_player:
     i2s_dout_pin: GPIO26
     i2s_bclk_pin: GPIO5
     mode: stereo
+    mute_pin:
+      number: GPIO21
+      inverted: true
 
 es8388:
-  power_pin:
-    number: GPIO21
-    inverted: true
 
 switch:
   - platform: gpio
