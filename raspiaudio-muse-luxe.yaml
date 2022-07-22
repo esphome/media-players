@@ -53,6 +53,22 @@ media_player:
 
 es8388:
 
+sensor:
+ - platform: adc
+   pin: GPIO33
+   name: ${name} Battery
+   icon: "mdi:battery-outline"
+   update_interval: 60s
+   accuracy_decimals: 2
+   attenuation: 11db
+   raw: true
+   filters:
+    - multiply: 0.00173913 # 2300 -> 4, for attenuation 11db, based on Olivier's code
+    - sliding_window_moving_average:
+         window_size: 10
+         send_every: 2
+    - delta: 0.01
+
 binary_sensor:
   - platform: gpio
     pin:
