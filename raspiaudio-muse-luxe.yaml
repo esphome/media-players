@@ -58,16 +58,16 @@ sensor:
    pin: GPIO33
    name: ${name} Battery
    icon: "mdi:battery-outline"
-   update_interval: 60s
-   accuracy_decimals: 2
+   update_interval: 15s
+   accuracy_decimals: 3
    attenuation: 11db
    raw: true
    filters:
     - multiply: 0.00173913 # 2300 -> 4, for attenuation 11db, based on Olivier's code
-    - sliding_window_moving_average:
-         window_size: 10
-         send_every: 2
-    - delta: 0.01
+    - exponential_moving_average:
+        alpha: 0.2
+        send_every: 2
+    - delta: 0.002
 
 binary_sensor:
   - platform: gpio
