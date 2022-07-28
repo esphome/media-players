@@ -39,7 +39,7 @@ media_player:
     i2s_dout_pin: GPIO26
     i2s_bclk_pin: GPIO5
     mode: mono
-    mute_pin: 
+    mute_pin:
       number: GPIO21
       inverted: true
 
@@ -48,6 +48,9 @@ binary_sensor:
     pin:
       number: GPIO0
       inverted: true
+      mode:
+        input: true
+        pullup: true
     name: ${friendly_name} Button
     on_click:
       - media_player.toggle: media_out
