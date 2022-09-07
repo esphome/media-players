@@ -31,9 +31,6 @@
       a {
         color: #03a9f4;
       }
-      .invisible {
-        visibility: hidden;
-      }
       .hidden {
         display: none;
       }
@@ -126,7 +123,12 @@
 
       <div class="radios">
         <label>
-          <input type="radio" name="type" value="raspiaudio-muse-luxe" checked />
+          <input
+            type="radio"
+            name="type"
+            value="raspiaudio-muse-luxe"
+            checked
+          />
           <img src="./esp_muse_luxe.png" alt="Raspiaudio ESP Muse Luxe" />
         </label>
         <label>
@@ -144,7 +146,7 @@
       </div>
 
       <p class="button-row" align="center">
-        <esp-web-install-button class="invisible"></esp-web-install-button>
+        <esp-web-install-button></esp-web-install-button>
       </p>
 
       <div class="info raspiaudio-muse-luxe">
@@ -240,20 +242,20 @@
         </ul>
       </div>
 
-      <p>
-        <i>
-          For advanced users that want to customize the firmware: the device is
-          adoptable in
+      <h3>Advanced Users</h3>
+      <ul>
+        <li>
+          The device is adoptable in
           <a
-            href="https://my.home-assistant.io/redirect/supervisor_addon/?addon=5c53de3b_esphome&repository_url=https%3A%2F%2Fgithub.com%2Fesphome%2Fhome-assistant-addon"
+            href="https://my.home-assistant.io/redirect/supervisor_addon/?addon=5c53de3b_esphome&amp;repository_url=https%3A%2F%2Fgithub.com%2Fesphome%2Fhome-assistant-addon"
             >the ESPHome dashboard</a
           >
-          and
-          <a href="https://github.com/esphome/media-players/"
-            >configuration is on GitHub</a
-          >.
-        </i>
-      </p>
+        </li>
+        <li>
+          The YAML configuration is on
+          <a href="https://github.com/esphome/media-players/">GitHub</a>
+        </li>
+      </ul>
 
       <div class="footer">
         Affiliated links are used on this website to support ESPHome
@@ -273,7 +275,6 @@
         radio.addEventListener("change", () => {
           const button = document.querySelector("esp-web-install-button");
           button.manifest = `./${radio.value}-manifest.json`;
-          button.classList.remove("invisible");
 
           document.querySelectorAll(".info").forEach((info) => {
             info.classList.add("hidden");
