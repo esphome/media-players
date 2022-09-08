@@ -149,7 +149,7 @@
         <esp-web-install-button></esp-web-install-button>
       </p>
 
-      <div class="info raspiaudio-muse-luxe">
+      <div class="hidden info raspiaudio-muse-luxe">
         <h3>Raspiaudio ESP Muse Luxe</h3>
         <p>
           Portable speaker with two 5 Watt speakers built-in. Can run 4 hours
@@ -284,6 +284,9 @@
             .classList.remove("hidden");
         })
       );
+      document
+        .querySelector('input[name="type"]:checked')
+        .dispatchEvent(new Event("change"));
     </script>
   </body>
 </html>
