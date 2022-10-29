@@ -53,6 +53,25 @@ media_player:
 
 es8388:
 
+sensor:
+ - platform: adc
+   pin: GPIO33
+   name: ${name} Battery
+   icon: "mdi:battery-outline"
+   device_class: voltage
+   state_class: measurement
+   unit_of_measurement: V
+   update_interval: 15s
+   accuracy_decimals: 3
+   attenuation: 11db
+   raw: true
+   filters:
+    - multiply: 0.00173913 # 2300 -> 4, for attenuation 11db, based on Olivier's code
+    - exponential_moving_average:
+        alpha: 0.2
+        send_every: 2
+    - delta: 0.002
+
 binary_sensor:
   - platform: gpio
     pin:
