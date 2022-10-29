@@ -58,6 +58,9 @@ sensor:
    pin: GPIO33
    name: ${name} Battery
    icon: "mdi:battery-outline"
+   device_class: voltage
+   state_class: measurement
+   unit_of_measurement: V
    update_interval: 15s
    accuracy_decimals: 3
    attenuation: 11db
