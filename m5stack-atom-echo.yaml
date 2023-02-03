@@ -51,7 +51,7 @@ binary_sensor:
 
 light:
   - platform: fastled_clockless
-    id: ${name}
+    id: led
     name: ${friendly_name}
     pin: GPIO27
     chipset: SK6812
