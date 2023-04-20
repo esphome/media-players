@@ -30,14 +30,16 @@ captive_portal:
 
 improv_serial:
 
+i2s_audio:
+  - i2s_lrclk_pin: GPIO25
+    i2s_bclk_pin: GPIO5
+
 media_player:
   - platform: i2s_audio
     id: media_out
     name: ${friendly_name}
     dac_type: external
-    i2s_lrclk_pin: GPIO25
     i2s_dout_pin: GPIO26
-    i2s_bclk_pin: GPIO5
     mode: mono
     mute_pin:
       number: GPIO21
