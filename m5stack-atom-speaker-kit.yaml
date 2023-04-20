@@ -31,7 +31,7 @@ captive_portal:
 improv_serial:
 
 i2s_audio:
-    i2s_lrclk_pin: GPIO21
+  - i2s_lrclk_pin: GPIO21
     i2s_bclk_pin: GPIO22
 
 media_player:
