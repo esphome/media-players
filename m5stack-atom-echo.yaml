@@ -34,13 +34,13 @@ i2s_audio:
   i2s_lrclk_pin: GPIO33
   i2s_bclk_pin: GPIO19
 
-media_player:
+microphone:
   - platform: i2s_audio
-    id: media_out
-    name: ${friendly_name}
-    dac_type: external
-    i2s_dout_pin: GPIO22
-    mode: mono
+    id: echo_microphone
+    i2s_din_pin: GPIO23
+
+voice_assistant:
+  microphone: echo_microphone
 
 binary_sensor:
   - platform: gpio
@@ -48,8 +48,21 @@ binary_sensor:
       number: GPIO39
       inverted: true
     name: ${friendly_name} Button
+    id: echo_button
+    on_press:
+      - voice_assistant.start:
+    on_release:
+      - voice_assistant.stop:
     on_click:
       - media_player.toggle: media_out
+
+media_player:
+  - platform: i2s_audio
+    id: media_out
+    name: ${friendly_name}
+    dac_type: external
+    i2s_dout_pin: GPIO22
+    mode: mono
 
 light:
   - platform: fastled_clockless
