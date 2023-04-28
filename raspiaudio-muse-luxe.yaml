@@ -5,6 +5,7 @@ substitutions:
 
 esphome:
   name: "${name}"
+  friendly_name: "${friendly_name}"
   name_add_mac_suffix: true
   project:
     name: raspiaudio.muse-luxe
@@ -39,13 +40,15 @@ external_components:
     components: [es8388]
     refresh: 0s
 
+i2s_audio:
+  i2s_lrclk_pin: GPIO25
+  i2s_bclk_pin: GPIO5
+
 media_player:
   - platform: i2s_audio
     name: ${friendly_name}
     dac_type: external
-    i2s_lrclk_pin: GPIO25
     i2s_dout_pin: GPIO26
-    i2s_bclk_pin: GPIO5
     mode: stereo
     mute_pin:
       number: GPIO21
@@ -80,7 +83,7 @@ binary_sensor:
       mode:
         input: true
         pullup: true
-    name: ${friendly_name} Volume Up
+    name: Volume Up
     on_click:
       - media_player.volume_up:
   - platform: gpio
@@ -90,7 +93,7 @@ binary_sensor:
       mode:
         input: true
         pullup: true
-    name: ${friendly_name} Volume Down
+    name: Volume Down
     on_click:
       - media_player.volume_down:
   - platform: gpio
@@ -100,7 +103,7 @@ binary_sensor:
       mode:
         input: true
         pullup: true
-    name: ${friendly_name} Play Button
+    name: Play Button
     on_click:
       - media_player.toggle:
 
