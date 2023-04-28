@@ -4,7 +4,8 @@ substitutions:
   wifi_ap_password: ""
 
 esphome:
-  name: "${name}"
+  name: ${name}
+  friendly_name: ${friendly_name}
   name_add_mac_suffix: true
   project:
     name: raspiaudio.muse-luxe
@@ -45,7 +46,7 @@ i2s_audio:
 
 media_player:
   - platform: i2s_audio
-    name: ${friendly_name}
+    name: None
     dac_type: external
     i2s_dout_pin: GPIO26
     mode: stereo
@@ -58,7 +59,7 @@ es8388:
 sensor:
  - platform: adc
    pin: GPIO33
-   name: ${name} Battery
+   name: Battery
    icon: "mdi:battery-outline"
    device_class: voltage
    state_class: measurement
@@ -82,7 +83,7 @@ binary_sensor:
       mode:
         input: true
         pullup: true
-    name: ${friendly_name} Volume Up
+    name: Volume Up
     on_click:
       - media_player.volume_up:
   - platform: gpio
@@ -92,7 +93,7 @@ binary_sensor:
       mode:
         input: true
         pullup: true
-    name: ${friendly_name} Volume Down
+    name: Volume Down
     on_click:
       - media_player.volume_down:
   - platform: gpio
@@ -102,13 +103,13 @@ binary_sensor:
       mode:
         input: true
         pullup: true
-    name: ${friendly_name} Play Button
+    name: Play Button
     on_click:
       - media_player.toggle:
 
 light:
   - platform: fastled_clockless
-    name: ${friendly_name}
+    name: None
     pin: GPIO22
     chipset: SK6812
     num_leds: 1
