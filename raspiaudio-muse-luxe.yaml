@@ -2,6 +2,7 @@ substitutions:
   name: "raspiaudio-muse-luxe"
   friendly_name: "RaspiAudio Muse Luxe"
   wifi_ap_password: ""
+  noise_key: "MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA="
 
 esphome:
   name: "${name}"
@@ -17,6 +18,9 @@ esp32:
 
 logger:
 api:
+  encryption:
+    key: "${noise_key}"
+
 ota:
 
 i2c:

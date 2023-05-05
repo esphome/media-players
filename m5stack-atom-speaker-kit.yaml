@@ -2,6 +2,7 @@ substitutions:
   name: "m5stack-atom-speaker-kit"
   friendly_name: "M5Stack Atom Speaker Kit"
   wifi_ap_password: ""
+  noise_key: "MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA="
 
 esphome:
   name: "${name}"
@@ -17,6 +18,9 @@ esp32:
 
 logger:
 api:
+  encryption:
+    key: "${noise_key}"
+
 ota:
 
 dashboard_import:

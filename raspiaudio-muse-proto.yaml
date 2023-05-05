@@ -2,6 +2,7 @@ substitutions:
   name: "raspiaudio-muse-proto"
   friendly_name: "RaspiAudio Muse Proto"
   wifi_ap_password: ""
+  noise_key: "MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA="
 
 esphome:
   name: "${name}"
@@ -17,6 +18,9 @@ esp32:
 
 logger:
 api:
+  encryption:
+    key: "${noise_key}"
+
 ota:
 
 dashboard_import:
