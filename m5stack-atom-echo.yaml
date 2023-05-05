@@ -19,7 +19,7 @@ esp32:
 logger:
 api:
   encryption:
-    key: noise_key
+    key: "${noise_key}"
 
 ota:
 
