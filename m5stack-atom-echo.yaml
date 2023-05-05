@@ -2,7 +2,7 @@ substitutions:
   name: "m5stack-atom-echo"
   friendly_name: "M5Stack Atom Echo"
   wifi_ap_password: ""
-  noise_key: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  noise_key: "MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw"
 
 esphome:
   name: "${name}"
