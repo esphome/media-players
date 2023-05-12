@@ -41,6 +41,11 @@ microphone:
 
 voice_assistant:
   microphone: echo_microphone
+  on_tts_end:
+    - media_player.play_media:
+        id: media_out
+        media_url: !lambda |-
+          return x;
 
 binary_sensor:
   - platform: gpio
@@ -49,12 +54,21 @@ binary_sensor:
       inverted: true
     name: ${friendly_name} Button
     id: echo_button
-    on_press:
-      - voice_assistant.start:
-    on_release:
-      - voice_assistant.stop:
-    on_click:
-      - media_player.toggle: media_out
+    on_multi_click:
+      - timing:
+          - ON FOR AT MOST 350ms
+          - OFF FOR AT LEAST 10ms
+        then:
+          - media_player.toggle: media_out
+      - timing:
+          - ON FOR AT LEAST 350ms
+        then:
+          - voice_assistant.start:
+      - timing:
+          - ON FOR AT LEAST 350ms
+          - OFF FOR AT LEAST 10ms
+        then:
+          - voice_assistant.stop:
 
 media_player:
   - platform: i2s_audio
