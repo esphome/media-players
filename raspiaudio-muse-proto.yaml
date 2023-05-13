@@ -4,7 +4,8 @@ substitutions:
   wifi_ap_password: ""
 
 esphome:
-  name: "${name}"
+  name: ${name}
+  friendly_name: ${friendly_name}
   name_add_mac_suffix: true
   project:
     name: raspiaudio.muse-proto
@@ -37,7 +38,7 @@ i2s_audio:
 media_player:
   - platform: i2s_audio
     id: media_out
-    name: ${friendly_name}
+    name: None
     dac_type: external
     i2s_dout_pin: GPIO26
     mode: mono
@@ -53,13 +54,13 @@ binary_sensor:
       mode:
         input: true
         pullup: true
-    name: ${friendly_name} Button
+    name: Button
     on_click:
       - media_player.toggle: media_out
 
 light:
   - platform: fastled_clockless
-    name: ${friendly_name}
+    name: None
     pin: GPIO22
     chipset: SK6812
     num_leds: 1

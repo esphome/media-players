@@ -4,7 +4,8 @@ substitutions:
   wifi_ap_password: ""
 
 esphome:
-  name: "${name}"
+  name: ${name}
+  friendly_name: ${friendly_name}
   name_add_mac_suffix: true
   project:
     name: raspiaudio.muse-luxe
@@ -114,7 +115,7 @@ binary_sensor:
       mode:
         input: true
         pullup: true
-    name: ${friendly_name} Volume Up
+    name: Volume Up
     on_click:
       - media_player.volume_up: luxe_out
   - platform: gpio
@@ -124,7 +125,7 @@ binary_sensor:
       mode:
         input: true
         pullup: true
-    name: ${friendly_name} Volume Down
+    name: Volume Down
     on_click:
       - media_player.volume_down: luxe_out
   - platform: gpio

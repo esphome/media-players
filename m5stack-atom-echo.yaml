@@ -4,7 +4,8 @@ substitutions:
   wifi_ap_password: ""
 
 esphome:
-  name: "${name}"
+  name: ${name}
+  friendly_name: ${friendly_name}
   name_add_mac_suffix: true
   project:
     name: m5stack.atom-echo
@@ -47,7 +48,7 @@ binary_sensor:
     pin:
       number: GPIO39
       inverted: true
-    name: ${friendly_name} Button
+    name: Button
     id: echo_button
     on_press:
       - voice_assistant.start:
@@ -59,7 +60,7 @@ binary_sensor:
 media_player:
   - platform: i2s_audio
     id: media_out
-    name: ${friendly_name}
+    name: None
     dac_type: external
     i2s_dout_pin: GPIO22
     mode: mono
@@ -67,7 +68,7 @@ media_player:
 light:
   - platform: fastled_clockless
     id: led
-    name: ${friendly_name}
+    name: None
     pin: GPIO27
     chipset: SK6812
     num_leds: 1
