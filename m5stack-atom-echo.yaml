@@ -40,7 +40,7 @@ microphone:
     id: echo_microphone
     i2s_din_pin: GPIO23
     adc_type: external
-    pdm: true
+    pdm: false
 
 voice_assistant:
   microphone: echo_microphone
