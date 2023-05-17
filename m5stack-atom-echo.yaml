@@ -39,9 +39,48 @@ microphone:
   - platform: i2s_audio
     id: echo_microphone
     i2s_din_pin: GPIO23
+    adc_type: external
+    pdm: true
 
 voice_assistant:
   microphone: echo_microphone
+  on_start:
+    - light.turn_on:
+        id: led
+        blue: 100%
+        red: 0%
+        green: 0%
+        effect: none
+  on_tts_start:
+    - light.turn_on:
+        id: led
+        blue: 0%
+        red: 0%
+        green: 100%
+        effect: none
+  on_tts_end:
+    - media_player.play_media: !lambda return x;
+    - light.turn_on:
+        id: led
+        blue: 0%
+        red: 0%
+        green: 100%
+        effect: pulse
+  on_end:
+    - delay: 1s
+    - wait_until:
+        not:
+          media_player.is_playing: media_out
+    - light.turn_off: led
+  on_error:
+    - light.turn_on:
+        id: led
+        blue: 0%
+        red: 100%
+        green: 0%
+        effect: none
+    - delay: 1s
+    - light.turn_off: led
 
 binary_sensor:
   - platform: gpio
@@ -50,12 +89,21 @@ binary_sensor:
       inverted: true
     name: Button
     id: echo_button
-    on_press:
-      - voice_assistant.start:
-    on_release:
-      - voice_assistant.stop:
-    on_click:
-      - media_player.toggle: media_out
+    on_multi_click:
+      - timing:
+          - ON FOR AT MOST 350ms
+          - OFF FOR AT LEAST 10ms
+        then:
+          - media_player.toggle: media_out
+      - timing:
+          - ON FOR AT LEAST 350ms
+        then:
+          - voice_assistant.start:
+      - timing:
+          - ON FOR AT LEAST 350ms
+          - OFF FOR AT LEAST 10ms
+        then:
+          - voice_assistant.stop:
 
 media_player:
   - platform: i2s_audio
@@ -66,10 +114,16 @@ media_player:
     mode: mono
 
 light:
-  - platform: fastled_clockless
+  - platform: esp32_rmt_led_strip
     id: led
     name: None
     pin: GPIO27
+    default_transition_length: 0s
     chipset: SK6812
     num_leds: 1
     rgb_order: grb
+    rmt_channel: 0
+    effects:
+      - pulse:
+          transition_length: 250ms
+          update_interval: 250ms
