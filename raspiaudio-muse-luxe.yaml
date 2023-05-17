@@ -44,6 +44,12 @@ i2s_audio:
   - i2s_lrclk_pin: GPIO25
     i2s_bclk_pin: GPIO5
 
+microphone:
+  - platform: i2s_audio
+    i2s_din_pin: GPIO35
+    adc_type: external
+    pdm: false
+
 media_player:
   - platform: i2s_audio
     name: None
