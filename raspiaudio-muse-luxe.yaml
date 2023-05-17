@@ -10,6 +10,7 @@ esphome:
   project:
     name: raspiaudio.muse-luxe
     version: "1.0"
+  min_version: 2023.5.0
 
 esp32:
   board: esp-wrover-kit
@@ -72,7 +73,27 @@ voice_assistant:
         blue: 100%
         red: 0%
         green: 0%
+        effect: none
+  on_tts_start:
+    - light.turn_on:
+        id: top_led
+        blue: 60%
+        red: 20%
+        green: 20%
+        effect: none
+  on_tts_end:
+    - media_player.play_media: !lambda return x;
+    - light.turn_on:
+        id: top_led
+        blue: 60%
+        red: 20%
+        green: 20%
+        effect: pulse
   on_end:
+    - delay: 1s
+    - wait_until:
+        not:
+          media_player.is_playing: luxe_out
     - light.turn_off: top_led
   on_error:
     - light.turn_on:
@@ -80,12 +101,9 @@ voice_assistant:
         blue: 0%
         red: 100%
         green: 0%
-        flash_length: 1s
-  on_tts_end:
-    - media_player.play_media:
-        id: luxe_out
-        media_url: !lambda |-
-          return x;
+        effect: none
+    - delay: 1s
+    - light.turn_off: top_led
 
 sensor:
   - platform: adc
@@ -115,7 +133,7 @@ binary_sensor:
       mode:
         input: true
         pullup: true
-    name: Volume Up
+    name: ${friendly_name} Volume Up
     on_click:
       - media_player.volume_up: luxe_out
   - platform: gpio
@@ -125,7 +143,7 @@ binary_sensor:
       mode:
         input: true
         pullup: true
-    name: Volume Down
+    name: ${friendly_name} Volume Down
     on_click:
       - media_player.volume_down: luxe_out
   - platform: gpio
@@ -161,3 +179,7 @@ light:
     num_leds: 1
     rgb_order: grb
     gamma_correct: 2.8
+    effects:
+      - pulse:
+          transition_length: 250ms
+          update_interval: 250ms
