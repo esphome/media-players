@@ -10,6 +10,7 @@ esphome:
   project:
     name: raspiaudio.muse-luxe
     version: "1.0"
+  min_version: 2023.5.0
 
 esp32:
   board: esp-wrover-kit
@@ -36,9 +37,11 @@ captive_portal:
 improv_serial:
 
 external_components:
-  - source: github://pr#3552
+  - source: github://pr#3552 # DAC support https://github.com/esphome/esphome/pull/3552
     components: [es8388]
     refresh: 0s
+
+es8388:
 
 i2s_audio:
   - i2s_lrclk_pin: GPIO25
@@ -47,6 +50,7 @@ i2s_audio:
 media_player:
   - platform: i2s_audio
     name: None
+    id: luxe_out
     dac_type: external
     i2s_dout_pin: GPIO26
     mode: stereo
@@ -54,26 +58,72 @@ media_player:
       number: GPIO21
       inverted: true
 
-es8388:
+microphone:
+  - platform: i2s_audio
+    id: luxe_microphone
+    i2s_din_pin: GPIO35
+    adc_type: external
+    pdm: false
+
+voice_assistant:
+  microphone: luxe_microphone
+  on_start:
+    - light.turn_on:
+        id: top_led
+        blue: 100%
+        red: 0%
+        green: 0%
+        effect: none
+  on_tts_start:
+    - light.turn_on:
+        id: top_led
+        blue: 60%
+        red: 20%
+        green: 20%
+        effect: none
+  on_tts_end:
+    - media_player.play_media: !lambda return x;
+    - light.turn_on:
+        id: top_led
+        blue: 60%
+        red: 20%
+        green: 20%
+        effect: pulse
+  on_end:
+    - delay: 1s
+    - wait_until:
+        not:
+          media_player.is_playing: luxe_out
+    - light.turn_off: top_led
+  on_error:
+    - light.turn_on:
+        id: top_led
+        blue: 0%
+        red: 100%
+        green: 0%
+        effect: none
+    - delay: 1s
+    - light.turn_off: top_led
 
 sensor:
- - platform: adc
-   pin: GPIO33
-   name: Battery
-   icon: "mdi:battery-outline"
-   device_class: voltage
-   state_class: measurement
-   unit_of_measurement: V
-   update_interval: 15s
-   accuracy_decimals: 3
-   attenuation: 11db
-   raw: true
-   filters:
-    - multiply: 0.00173913 # 2300 -> 4, for attenuation 11db, based on Olivier's code
-    - exponential_moving_average:
-        alpha: 0.2
-        send_every: 2
-    - delta: 0.002
+  - platform: adc
+    pin: GPIO33
+    name: Battery
+    icon: "mdi:battery-outline"
+    device_class: voltage
+    state_class: measurement
+    entity_category: diagnostic
+    unit_of_measurement: V
+    update_interval: 15s
+    accuracy_decimals: 3
+    attenuation: 11db
+    raw: true
+    filters:
+      - multiply: 0.00173913 # 2300 -> 4, for attenuation 11db, based on Olivier's code
+      - exponential_moving_average:
+          alpha: 0.2
+          send_every: 2
+      - delta: 0.002
 
 binary_sensor:
   - platform: gpio
@@ -85,7 +135,7 @@ binary_sensor:
         pullup: true
     name: Volume Up
     on_click:
-      - media_player.volume_up:
+      - media_player.volume_up: luxe_out
   - platform: gpio
     pin:
       number: GPIO32
@@ -95,7 +145,7 @@ binary_sensor:
         pullup: true
     name: Volume Down
     on_click:
-      - media_player.volume_down:
+      - media_player.volume_down: luxe_out
   - platform: gpio
     pin:
       number: GPIO12
@@ -103,14 +153,33 @@ binary_sensor:
       mode:
         input: true
         pullup: true
-    name: Play Button
-    on_click:
-      - media_player.toggle:
+    name: Action
+    on_multi_click:
+      - timing:
+          - ON FOR AT MOST 350ms
+          - OFF FOR AT LEAST 10ms
+        then:
+          - media_player.toggle: luxe_out
+      - timing:
+          - ON FOR AT LEAST 350ms
+        then:
+          - voice_assistant.start:
+      - timing:
+          - ON FOR AT LEAST 350ms
+          - OFF FOR AT LEAST 10ms
+        then:
+          - voice_assistant.stop:
 
 light:
   - platform: fastled_clockless
     name: None
+    id: top_led
     pin: GPIO22
     chipset: SK6812
     num_leds: 1
     rgb_order: grb
+    gamma_correct: 2.8
+    effects:
+      - pulse:
+          transition_length: 250ms
+          update_interval: 250ms
