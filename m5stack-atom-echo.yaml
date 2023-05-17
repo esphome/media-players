@@ -38,14 +38,13 @@ microphone:
   - platform: i2s_audio
     id: echo_microphone
     i2s_din_pin: GPIO23
+    adc_type: external
+    pdm: true
 
 voice_assistant:
   microphone: echo_microphone
   on_tts_end:
-    - media_player.play_media:
-        id: media_out
-        media_url: !lambda |-
-          return x;
+    - media_player.play_media: !lambda return x;
 
 binary_sensor:
   - platform: gpio
