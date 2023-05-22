@@ -110,7 +110,7 @@ binary_sensor:
       mode:
         input: true
         pullup: true
-    name: ${friendly_name} Action
+    name: Action
     on_multi_click:
       - timing:
           - ON FOR AT MOST 350ms
