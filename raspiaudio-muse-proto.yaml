@@ -10,7 +10,7 @@ esphome:
   project:
     name: raspiaudio.muse-proto
     version: "1.0"
-  min_version: 2023.5.0
+  min_version: 2023.5.3
 
 esp32:
   board: esp-wrover-kit
@@ -20,11 +20,6 @@ esp32:
 logger:
 api:
 ota:
-
-external_components:
-  - source: github://pr#4871 # I2S microphone channel https://github.com/esphome/esphome/pull/4871
-    components: [i2s_audio]
-    refresh: 0s
 
 dashboard_import:
   package_import_url: github://esphome/media-players/raspiaudio-muse-proto.yaml@main
