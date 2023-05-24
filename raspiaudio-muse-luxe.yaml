@@ -109,13 +109,12 @@ sensor:
   - platform: adc
     pin: GPIO33
     name: Battery
-    icon: "mdi:battery-outline"
-    device_class: voltage
+    device_class: battery
     state_class: measurement
     entity_category: diagnostic
-    unit_of_measurement: V
+    unit_of_measurement: "%"
     update_interval: 15s
-    accuracy_decimals: 3
+    accuracy_decimals: 0
     attenuation: 11db
     raw: true
     filters:
@@ -124,6 +123,15 @@ sensor:
           alpha: 0.2
           send_every: 2
       - delta: 0.002
+      - calibrate_polynomial:
+          degree: 3
+          datapoints:
+            - 3.0 -> 0.0
+            - 3.4 -> 20.0
+            - 3.8 -> 50.0
+            - 4.04 -> 80.0
+            - 4.2 -> 100.0
+      - lambda: return std::max(std::min((double)x, 0.0), 100.0);
 
 binary_sensor:
   - platform: gpio
