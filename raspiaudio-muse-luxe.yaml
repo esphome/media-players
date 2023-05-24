@@ -67,6 +67,7 @@ globals:
 
 interval:
   - interval: 1s
+    then:
       - if:
           condition:
             and:
@@ -77,13 +78,13 @@ interval:
                 id: wifi_connected
                 value: "true"
             - light.turn_on:
-                id: led
+                id: top_led
                 effect: pulse
                 red: 0%
                 green: 100%
                 blue: 0%
             - delay: 1s
-            - light.turn_off: led
+            - light.turn_off: top_led
 
 output:
   - platform: gpio
@@ -242,6 +243,7 @@ light:
     variant: SK6812
     num_leds: 1
     type: grb
+    default_transition_length: 0s
     gamma_correct: 2.8
     effects:
       - pulse:
