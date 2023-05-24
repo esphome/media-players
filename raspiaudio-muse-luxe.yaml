@@ -125,6 +125,7 @@ microphone:
 voice_assistant:
   microphone: luxe_microphone
   on_start:
+    - media_player.stop:
     - light.turn_on:
         id: top_led
         blue: 100%
