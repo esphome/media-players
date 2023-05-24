@@ -228,13 +228,13 @@ binary_sensor:
           - voice_assistant.stop:
 
 light:
-  - platform: fastled_clockless
+  - platform: neopixelbus
     name: None
     id: top_led
     pin: GPIO22
-    chipset: SK6812
+    variant: SK6812
     num_leds: 1
-    rgb_order: grb
+    type: grb
     gamma_correct: 2.8
     effects:
       - pulse:
