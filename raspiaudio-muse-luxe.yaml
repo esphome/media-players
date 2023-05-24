@@ -28,6 +28,13 @@ esp32:
 
 logger:
 api:
+  services:
+    - service: start_va
+      then:
+        - voice_assistant.start
+    - service: stop_va
+      then:
+        - voice_assistant.stop
 ota:
 
 i2c:
