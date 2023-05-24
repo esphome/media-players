@@ -13,6 +13,7 @@ esphome:
   min_version: 2023.5.0
   on_boot:
     then:
+      - output.turn_on: dac_mute
       - light.turn_on:
           id: top_led
           effect: slow_pulse
@@ -77,6 +78,12 @@ interval:
             - delay: 1s
             - light.turn_off: led
 
+output:
+  - platform: gpio
+    id: dac_mute
+    pin: GPIO21
+    inverted: true
+
 i2s_audio:
   - i2s_lrclk_pin: GPIO25
     i2s_bclk_pin: GPIO5
@@ -91,6 +98,14 @@ media_player:
     mute_pin:
       number: GPIO21
       inverted: true
+    on_state:
+      if:
+        condition:
+          media_player.is_playing:
+        then:
+          output.turn_off: dac_mute
+        else:
+          output.turn_on: dac_mute
 
 microphone:
   - platform: i2s_audio
