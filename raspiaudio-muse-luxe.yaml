@@ -174,9 +174,7 @@ sensor:
     update_interval: 15s
     accuracy_decimals: 0
     attenuation: 11db
-    raw: true
     filters:
-      - multiply: 0.00173913 # 2300 -> 4, for attenuation 11db, based on Olivier's code
       - exponential_moving_average:
           alpha: 0.2
           send_every: 2
@@ -185,11 +183,16 @@ sensor:
           degree: 3
           datapoints:
             - 3.0 -> 0.0
-            - 3.4 -> 20.0
-            - 3.8 -> 50.0
-            - 4.04 -> 80.0
-            - 4.2 -> 100.0
-      - lambda: return std::max(std::min((double)x, 0.0), 100.0);
+            - 3.45 -> 5.0
+            - 3.55 -> 10.0
+            - 3.63 -> 20.0
+            - 3.72 -> 40.0
+            - 3.79 -> 60.0
+            - 3.85 -> 80.0
+            - 3.87 -> 90.0
+            - 3.88 -> 95.0
+            - 4.0 -> 100.0
+      - lambda: return std::min(std::max((double)x, 0.0), 100.0);
 
 binary_sensor:
   - platform: gpio
