@@ -1,15 +1,8 @@
-substitutions:
-  name: "m5stack-atom-speaker-kit"
-  friendly_name: "M5Stack Atom Speaker Kit"
-  wifi_ap_password: ""
-
 esphome:
-  name: ${name}
-  friendly_name: ${friendly_name}
+  name: m5stack-atom-speaker-kit
+  friendly_name: M5Stack Atom Speaker Kit
+  min_version: 2024.6.0
   name_add_mac_suffix: true
-  project:
-    name: m5stack.atom-speaker-kit
-    version: "1.0"
 
 esp32:
   board: m5stack-atom
@@ -18,21 +11,19 @@ esp32:
 
 logger:
 api:
-ota:
 
-dashboard_import:
-  package_import_url: github://esphome/media-players/m5stack-atom-speaker-kit.yaml@main
+ota:
+  - platform: esphome
+    id: ota_esphome
 
 wifi:
   ap:
-    password: "${wifi_ap_password}"
 
 captive_portal:
 
-improv_serial:
-
 i2s_audio:
-  - i2s_lrclk_pin: GPIO21
+  - id: i2s_audio_bus
+    i2s_lrclk_pin: GPIO21
     i2s_bclk_pin: GPIO22
 
 media_player:
@@ -48,14 +39,25 @@ binary_sensor:
     pin:
       number: GPIO39
       inverted: true
+    id: top_button
     name: Button
     on_click:
       - media_player.toggle: media_out
 
 light:
   - platform: fastled_clockless
+    id: led
     name: None
     pin: GPIO27
     chipset: SK6812
     num_leds: 1
     rgb_order: grb
+
+button:
+  - platform: safe_mode
+    id: button_safe_mode
+    name: Safe Mode Boot
+
+  - platform: factory_reset
+    id: factory_reset_btn
+    name: Factory reset

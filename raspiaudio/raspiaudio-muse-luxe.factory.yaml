@@ -1,0 +1,25 @@
+packages:
+  raspiaudio-muse-luxe: !include raspiaudio-muse-luxe.yaml
+
+esphome:
+  project:
+    name: raspiaudio.muse-luxe
+    version: dev
+
+ota:
+  - platform: http_request
+    id: ota_http_request
+
+update:
+  - platform: http_request
+    id: update_http_request
+    name: Firmware
+    source: https://firmware.esphome.io/media-player/raspiaudio-muse-luxe/manifest.json
+
+http_request:
+  verify_ssl: false
+
+dashboard_import:
+  package_import_url: github://esphome/media-players/raspiaudio/raspiaudio-muse-luxe.yaml@main
+
+improv_serial:

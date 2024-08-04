@@ -1,16 +1,8 @@
-substitutions:
-  name: "m5stack-atom-echo"
-  friendly_name: "M5Stack Atom Echo"
-  wifi_ap_password: ""
-
 esphome:
-  name: ${name}
-  friendly_name: ${friendly_name}
+  name: m5stack-atom-echo
+  friendly_name: M5Stack Atom Echo
+  min_version: 2024.6.0
   name_add_mac_suffix: true
-  project:
-    name: m5stack.atom-echo
-    version: "1.0"
-  min_version: 2023.5.0
 
 esp32:
   board: m5stack-atom
@@ -19,22 +11,20 @@ esp32:
 
 logger:
 api:
-ota:
 
-dashboard_import:
-  package_import_url: github://esphome/media-players/m5stack-atom-echo.yaml@main
+ota:
+  - platform: esphome
+    id: ota_esphome
 
 wifi:
   ap:
-    password: "${wifi_ap_password}"
 
 captive_portal:
 
-improv_serial:
-
 i2s_audio:
-  i2s_lrclk_pin: GPIO33
-  i2s_bclk_pin: GPIO19
+  - id: i2s_audio_bus
+    i2s_lrclk_pin: GPIO33
+    i2s_bclk_pin: GPIO19
 
 microphone:
   - platform: i2s_audio
@@ -99,6 +89,11 @@ binary_sensor:
       - timing:
           - ON FOR AT LEAST 350ms
         then:
+          - if:
+              condition:
+                media_player.is_playing: media_out
+              then:
+                - media_player.stop: media_out
           - voice_assistant.start:
       - timing:
           - ON FOR AT LEAST 350ms
@@ -128,3 +123,12 @@ light:
       - pulse:
           transition_length: 250ms
           update_interval: 250ms
+
+button:
+  - platform: safe_mode
+    id: button_safe_mode
+    name: Safe Mode Boot
+
+  - platform: factory_reset
+    id: factory_reset_btn
+    name: Factory reset

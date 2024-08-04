@@ -1,16 +1,8 @@
-substitutions:
-  name: "raspiaudio-muse-luxe"
-  friendly_name: "RaspiAudio Muse Luxe"
-  wifi_ap_password: ""
-
 esphome:
-  name: ${name}
-  friendly_name: ${friendly_name}
+  name: raspiaudio-muse-luxe
+  friendly_name: RaspiAudio Muse Luxe
+  min_version: 2024.6.0
   name_add_mac_suffix: true
-  project:
-    name: raspiaudio.muse-luxe
-    version: "1.0"
-  min_version: 2023.5.0
 
 esp32:
   board: esp-wrover-kit
@@ -19,32 +11,31 @@ esp32:
 
 logger:
 api:
+
 ota:
+  - platform: esphome
+    id: ota_esphome
 
 i2c:
-  sda: GPIO18
-  scl: GPIO23
-
-dashboard_import:
-  package_import_url: github://esphome/media-players/raspiaudio-muse-luxe.yaml@main
+  - id: i2c_bus
+    sda: GPIO18
+    scl: GPIO23
 
 wifi:
   ap:
-    password: "${wifi_ap_password}"
 
 captive_portal:
 
-improv_serial:
-
 external_components:
-  - source: github://pr#3552 # DAC support https://github.com/esphome/esphome/pull/3552
+  - source: github://pr#3552  # DAC support https://github.com/esphome/esphome/pull/3552
     components: [es8388]
     refresh: 0s
 
 es8388:
 
 i2s_audio:
-  - i2s_lrclk_pin: GPIO25
+  - id: i2s_audio_bus
+    i2s_lrclk_pin: GPIO25
     i2s_bclk_pin: GPIO5
 
 media_player:
@@ -107,6 +98,7 @@ voice_assistant:
 
 sensor:
   - platform: adc
+    id: battery_sensor
     pin: GPIO33
     name: Battery
     icon: "mdi:battery-outline"
@@ -119,7 +111,7 @@ sensor:
     attenuation: 11db
     raw: true
     filters:
-      - multiply: 0.00173913 # 2300 -> 4, for attenuation 11db, based on Olivier's code
+      - multiply: 0.00173913  # 2300 -> 4, for attenuation 11db, based on Olivier's code
       - exponential_moving_average:
           alpha: 0.2
           send_every: 2
@@ -134,6 +126,7 @@ binary_sensor:
         input: true
         pullup: true
     name: Volume Up
+    id: volume_up
     on_click:
       - media_player.volume_up: luxe_out
   - platform: gpio
@@ -144,6 +137,7 @@ binary_sensor:
         input: true
         pullup: true
     name: Volume Down
+    id: volume_down
     on_click:
       - media_player.volume_down: luxe_out
   - platform: gpio
@@ -154,6 +148,7 @@ binary_sensor:
         input: true
         pullup: true
     name: Action
+    id: action_button
     on_multi_click:
       - timing:
           - ON FOR AT MOST 350ms
@@ -183,3 +178,12 @@ light:
       - pulse:
           transition_length: 250ms
           update_interval: 250ms
+
+button:
+  - platform: safe_mode
+    id: button_safe_mode
+    name: Safe Mode Boot
+
+  - platform: factory_reset
+    id: factory_reset_btn
+    name: Factory reset
