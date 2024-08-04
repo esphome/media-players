@@ -36,6 +36,6 @@ jobs:
       - build-firmware
     uses: esphome/workflows/.github/workflows/upload.yml@main
     with:
-      name: media-players
+      directory: media-players
       version: ${{ needs.build-firmware.outputs.version }}
     secrets: inherit
