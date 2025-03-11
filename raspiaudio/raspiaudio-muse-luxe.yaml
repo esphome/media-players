@@ -140,7 +140,7 @@ binary_sensor:
     name: Volume Down
     id: volume_down
     on_click:
-      - media_player.volume_down: 
+      - media_player.volume_down:
           id: luxe_out
   - platform: gpio
     pin:
@@ -156,7 +156,7 @@ binary_sensor:
           - ON FOR AT MOST 350ms
           - OFF FOR AT LEAST 10ms
         then:
-          - media_player.toggle: 
+          - media_player.toggle:
               id: luxe_out
       - timing:
           - ON FOR AT LEAST 350ms
