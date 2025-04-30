@@ -128,7 +128,8 @@ binary_sensor:
     name: Volume Up
     id: volume_up
     on_click:
-      - media_player.volume_up: luxe_out
+      - media_player.volume_up:
+          id: luxe_out
   - platform: gpio
     pin:
       number: GPIO32
@@ -139,7 +140,8 @@ binary_sensor:
     name: Volume Down
     id: volume_down
     on_click:
-      - media_player.volume_down: luxe_out
+      - media_player.volume_down:
+          id: luxe_out
   - platform: gpio
     pin:
       number: GPIO12
@@ -154,7 +156,8 @@ binary_sensor:
           - ON FOR AT MOST 350ms
           - OFF FOR AT LEAST 10ms
         then:
-          - media_player.toggle: luxe_out
+          - media_player.toggle:
+              id: luxe_out
       - timing:
           - ON FOR AT LEAST 350ms
         then:
