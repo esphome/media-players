@@ -111,7 +111,8 @@ binary_sensor:
           - ON FOR AT MOST 350ms
           - OFF FOR AT LEAST 10ms
         then:
-          - media_player.toggle: media_out
+          - media_player.toggle:
+              id: media_out
       - timing:
           - ON FOR AT LEAST 350ms
         then:
