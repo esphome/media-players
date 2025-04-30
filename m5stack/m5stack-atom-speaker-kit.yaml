@@ -42,7 +42,8 @@ binary_sensor:
     id: top_button
     name: Button
     on_click:
-      - media_player.toggle: media_out
+      - media_player.toggle:
+          id: media_out
 
 light:
   - platform: fastled_clockless
