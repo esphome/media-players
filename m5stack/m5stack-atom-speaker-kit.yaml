@@ -46,11 +46,12 @@ binary_sensor:
           id: media_out
 
 light:
-  - platform: fastled_clockless
+  - platform: esp32_rmt_led_strip
     id: led
     name: None
     pin: GPIO27
     chipset: SK6812
+    rmt_channel: 0
     num_leds: 1
     rgb_order: grb
 
