@@ -16,7 +16,7 @@ concurrency:
 jobs:
   build-firmware:
     name: Build Firmware
-    uses: esphome/workflows/.github/workflows/build.yml@main
+    uses: esphome/workflows/.github/workflows/build.yml@2025.4.0
     with:
       files: |
         m5stack/m5stack-atom-echo.factory.yaml
@@ -24,18 +24,38 @@ jobs:
         onju-voice/onju-voice.factory.yaml
         raspiaudio/raspiaudio-muse-luxe.factory.yaml
         raspiaudio/raspiaudio-muse-proto.factory.yaml
-      esphome-version: 2024.9.1
+      esphome-version: 2025.2.2
       release-summary: ${{ github.event_name == 'release' && github.event.release.body || '' }}
       release-url: ${{ github.event_name == 'release' && github.event.release.html_url || '' }}
       release-version: ${{ github.event_name == 'release' && github.event.release.tag_name || '' }}
 
-  upload:
+  upload-to-r2:
     if: github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main')
     name: Upload to R2
     needs:
       - build-firmware
-    uses: esphome/workflows/.github/workflows/upload.yml@main
+    uses: esphome/workflows/.github/workflows/upload-to-r2.yml@2025.4.0
     with:
       directory: media-player
-      version: ${{ needs.build-firmware.outputs.version }}
+    secrets: inherit
+
+  upload-to-release:
+    name: Upload to Release
+    if: github.event_name == 'release'
+    uses: esphome/workflows/.github/workflows/upload-to-gh-release.yml@2025.4.0
+    needs:
+      - build-firmware
+    with:
+      version: ${{ github.event.release.tag_name }}
+
+  promote-prod:
+    name: Promote to Production
+    if: github.event_name == 'release' && github.event.release.prerelease == false
+    uses: esphome/workflows/.github/workflows/promote-r2.yml@2025.4.0
+    needs:
+      - upload-to-r2
+    with:
+      version: ${{ github.event.release.tag_name }}
+      directory: media-player
+      channel: production
     secrets: inherit
