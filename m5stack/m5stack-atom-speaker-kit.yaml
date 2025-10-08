@@ -51,7 +51,6 @@ light:
     name: None
     pin: GPIO27
     chipset: SK6812
-    rmt_channel: 0
     num_leds: 1
     rgb_order: grb
 

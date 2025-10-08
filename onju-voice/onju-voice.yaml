@@ -263,7 +263,6 @@ light:
     chipset: SK6812
     num_leds: 6
     rgb_order: grb
-    rmt_channel: 0
     default_transition_length: 0s
     gamma_correct: 2.8
   - platform: partition
