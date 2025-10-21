@@ -263,7 +263,6 @@ light:
     chipset: SK6812
     num_leds: 6
     rgb_order: grb
-    rmt_channel: 0
     default_transition_length: 0s
     gamma_correct: 2.8
   - platform: partition
@@ -388,9 +387,9 @@ script:
       button: int
     then:
       - lambda: |-
-          static byte thresh_indices[3] = {0, 0, 0};
+          static uint8_t thresh_indices[3] = {0, 0, 0};
           static uint32_t sums[3] = {0, 0, 0};
-          static byte qsizes[3] = {0, 0, 0};
+          static uint8_t qsizes[3] = {0, 0, 0};
           static int consecutive_anomalies_per_button[3] = {0, 0, 0};
 
           uint32_t newval;

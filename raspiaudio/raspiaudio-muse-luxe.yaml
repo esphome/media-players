@@ -58,6 +58,7 @@ microphone:
 
 voice_assistant:
   microphone: luxe_microphone
+  media_player: luxe_out
   on_start:
     - light.turn_on:
         id: top_led
