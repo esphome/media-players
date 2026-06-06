@@ -1,13 +1,13 @@
 esphome:
   name: raspiaudio-muse-proto
   friendly_name: RaspiAudio Muse Proto
-  min_version: 2024.9.0
+  min_version: 2025.5.0
   name_add_mac_suffix: true
 
 esp32:
   board: esp-wrover-kit
   framework:
-    type: arduino
+    type: esp-idf
 
 logger:
 api:
