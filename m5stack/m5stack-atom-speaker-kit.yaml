@@ -1,13 +1,13 @@
 esphome:
   name: m5stack-atom-speaker-kit
   friendly_name: M5Stack Atom Speaker Kit
-  min_version: 2024.6.0
+  min_version: 2025.5.0
   name_add_mac_suffix: true
 
 esp32:
   board: m5stack-atom
   framework:
-    type: arduino
+    type: esp-idf
 
 logger:
 api:
