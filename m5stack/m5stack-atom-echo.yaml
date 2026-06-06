@@ -117,6 +117,8 @@ media_player:
     name: None
     announcement_pipeline:
       speaker: echo_speaker
+      format: WAV
+    buffer_size: 6000
 
 light:
   - platform: esp32_rmt_led_strip

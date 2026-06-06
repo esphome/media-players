@@ -39,6 +39,8 @@ media_player:
     name: None
     announcement_pipeline:
       speaker: speaker_out
+      format: WAV
+    buffer_size: 6000
 
 binary_sensor:
   - platform: gpio
