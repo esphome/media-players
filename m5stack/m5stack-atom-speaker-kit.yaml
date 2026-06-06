@@ -26,13 +26,19 @@ i2s_audio:
     i2s_lrclk_pin: GPIO21
     i2s_bclk_pin: GPIO22
 
-media_player:
+speaker:
   - platform: i2s_audio
-    id: media_out
-    name: None
+    id: speaker_out
     dac_type: external
     i2s_dout_pin: GPIO25
-    mode: mono
+    channel: mono
+
+media_player:
+  - platform: speaker
+    id: media_out
+    name: None
+    announcement_pipeline:
+      speaker: speaker_out
 
 binary_sensor:
   - platform: gpio
