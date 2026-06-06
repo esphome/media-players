@@ -1,7 +1,7 @@
 esphome:
   name: onju-voice
   friendly_name: Onju Voice
-  min_version: 2024.6.0
+  min_version: 2025.5.0
   name_add_mac_suffix: true
   on_boot:
     then:
@@ -35,7 +35,7 @@ esphome:
 esp32:
   board: esp32-s3-devkitc-1
   framework:
-    type: arduino
+    type: esp-idf
 
 logger:
 
