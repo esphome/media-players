@@ -38,27 +38,28 @@ speaker:
   - platform: i2s_audio
     id: board_external_speakers
     dac_type: external
-    i2s_dout_pin:
-      number: GPIO26
-      allow_other_uses: true
+    i2s_dout_pin: GPIO26
     channel: mono
 
 media_player:
-  - platform: i2s_audio
+  - platform: speaker
     id: media_out
     name: None
-    dac_type: external
-    i2s_dout_pin:
-      number: GPIO26
-      allow_other_uses: true
-    mode: mono
-    mute_pin:
+    announcement_pipeline:
+      speaker: board_external_speakers
+
+switch:
+  - platform: gpio
+    id: amplifier_enable
+    pin:
       number: GPIO21
       inverted: true
+    restore_mode: RESTORE_DEFAULT_ON
+    internal: true
 
 voice_assistant:
   microphone: board_microphone
-  speaker: board_external_speakers
+  media_player: media_out
   on_start:
     - light.turn_on:
         id: board_led
@@ -84,7 +85,7 @@ voice_assistant:
     - delay: 1s
     - wait_until:
         not:
-          speaker.is_playing:
+          media_player.is_playing: media_out
     - light.turn_off: board_led
   on_error:
     - light.turn_on:
