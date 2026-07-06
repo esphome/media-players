@@ -1,13 +1,13 @@
 esphome:
   name: raspiaudio-muse-luxe
   friendly_name: RaspiAudio Muse Luxe
-  min_version: 2024.6.0
+  min_version: 2025.5.0
   name_add_mac_suffix: true
 
 esp32:
   board: esp-wrover-kit
   framework:
-    type: arduino
+    type: esp-idf
 
 logger:
 api:
@@ -38,16 +38,19 @@ i2s_audio:
     i2s_lrclk_pin: GPIO25
     i2s_bclk_pin: GPIO5
 
-media_player:
+speaker:
   - platform: i2s_audio
-    name: None
-    id: luxe_out
+    id: luxe_speaker
     dac_type: external
     i2s_dout_pin: GPIO26
-    mode: stereo
-    mute_pin:
-      number: GPIO21
-      inverted: true
+    channel: stereo
+
+media_player:
+  - platform: speaker
+    name: None
+    id: luxe_out
+    announcement_pipeline:
+      speaker: luxe_speaker
 
 microphone:
   - platform: i2s_audio
@@ -169,8 +172,17 @@ binary_sensor:
         then:
           - voice_assistant.stop:
 
+switch:
+  - platform: gpio
+    id: amplifier_enable
+    pin:
+      number: GPIO21
+      inverted: true
+    restore_mode: RESTORE_DEFAULT_ON
+    internal: true
+
 light:
-  - platform: fastled_clockless
+  - platform: esp32_rmt_led_strip
     name: None
     id: top_led
     pin: GPIO22
