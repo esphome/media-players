@@ -1,0 +1,70 @@
+name: Media Players Bug Report
+description: |-
+  Report an issue with the Media Players firmware provided by this repository,
+  the web installer and the provided OTA updates.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This issue form is for reporting bugs with the Media Players firmware that is compiled and released
+        from this repository. This includes flashing the firmware from the ESPHome projects page and the OTA updates that are provided.
+
+        **This is NOT for:**
+        - Reporting issues with ESPHome itself. Please use the [ESPHome issue tracker](https://github.com/esphome/esphome/issues)
+        - Requesting new device support. We only add new devices we have tested and are happy to recommend.
+
+        If you have taken control of the device in the ESPHome Builder, please report the issue in the main [ESPHome issue tracker][issues].
+
+        [issues]: https://github.com/esphome/esphome/issues
+
+  - type: textarea
+    validations:
+      required: true
+    id: problem
+    attributes:
+      label: The problem
+      description: >-
+        Describe the issue you are experiencing here to communicate to the
+        maintainers. Tell us what you were trying to do and what happened.
+
+        Provide a clear and concise description of what the problem is.
+
+  - type: dropdown
+    validations:
+      required: true
+    id: device
+    attributes:
+      label: Which device are you using?
+      options:
+        - m5stack-atom-echo
+        - m5stack-atom-speaker-kit
+        - onju-voice
+        - raspiaudio-muse-luxe
+        - raspiaudio-muse-proto
+
+  - type: input
+    id: version
+    validations:
+      required: true
+    attributes:
+      label: Firmware Version
+      description: >
+        The version of the installed firmware. This is **NOT** the ESPHome version, but is in the format `26.7.1` for example.
+
+  - type: textarea
+    id: logs
+    validations:
+      required: true
+    attributes:
+      label: Logs
+      description: For example, error messages or stack traces. Serial logs from the USB port are much more useful than WiFi logs.
+      render: txt
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional information
+      description: >
+        If you have any additional information for us, use the field below.
+        Please note, you can attach screenshots or screen recordings here, by
+        dragging and dropping files in the field below.
