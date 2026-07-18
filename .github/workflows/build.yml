@@ -1,61 +1,28 @@
 name: Build
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
   workflow_dispatch:
-  release:
-    types: [published]
+  workflow_run:
+    workflows: ["Release Drafter"]
+    types: [completed]
+
+# The called workflow's draft-release jobs (read draft info, replace assets,
+# strip the pending warning) need contents: write; they only run on
+# workflow_run events. Fork pull requests still get a read-only token.
+permissions:
+  contents: write
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.event_name == 'workflow_run' && 'release-drafter' || github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build-firmware:
-    name: Build Firmware
-    uses: esphome/workflows/.github/workflows/build.yml@025a1e6255610c498ed590403b7e510b69e474df  # 2026.4.1
+  build:
+    name: Build to Draft Release
+    # Discovers *.factory.yaml configs, builds them, and — when triggered by
+    # a successful Release Drafter run — uploads the firmware to the current
+    # draft release. On pull_request/workflow_dispatch it only builds.
+    uses: esphome/workflows/.github/workflows/build-to-draft-release.yml@9f6577fd37b5cf773ab1b9be929714a0dcd15661  # 2026.7.0
     with:
-      files: |
-        m5stack/m5stack-atom-echo.factory.yaml
-        m5stack/m5stack-atom-speaker-kit.factory.yaml
-        onju-voice/onju-voice.factory.yaml
-        raspiaudio/raspiaudio-muse-luxe.factory.yaml
-        raspiaudio/raspiaudio-muse-proto.factory.yaml
-      esphome-version: 2026.6.4
-      release-summary: ${{ github.event_name == 'release' && github.event.release.body || '' }}
-      release-url: ${{ github.event_name == 'release' && github.event.release.html_url || '' }}
-      release-version: ${{ github.event_name == 'release' && github.event.release.tag_name || '' }}
-
-  upload-to-r2:
-    if: github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main')
-    name: Upload to R2
-    needs:
-      - build-firmware
-    uses: esphome/workflows/.github/workflows/upload-to-r2.yml@025a1e6255610c498ed590403b7e510b69e474df  # 2026.4.1
-    with:
-      directory: media-player
-    secrets: inherit
-
-  upload-to-release:
-    name: Upload to Release
-    if: github.event_name == 'release'
-    uses: esphome/workflows/.github/workflows/upload-to-gh-release.yml@025a1e6255610c498ed590403b7e510b69e474df  # 2026.4.1
-    needs:
-      - build-firmware
-    with:
-      version: ${{ github.event.release.tag_name }}
-
-  promote-prod:
-    name: Promote to Production
-    if: github.event_name == 'release' && github.event.release.prerelease == false
-    uses: esphome/workflows/.github/workflows/promote-r2.yml@025a1e6255610c498ed590403b7e510b69e474df  # 2026.4.1
-    needs:
-      - upload-to-r2
-    with:
-      version: ${{ github.event.release.tag_name }}
-      directory: media-player
-      channel: production
-    secrets: inherit
+      esphome-version: 2026.7.0
