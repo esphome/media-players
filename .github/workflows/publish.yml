@@ -1,0 +1,23 @@
+name: Publish
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-${{ github.event.release.tag_name }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Publish firmware to R2
+    # Downloads the release's firmware assets and uploads them to
+    # https://firmware.esphome.io/ (beta always, production for
+    # non-prerelease). The firmware directory defaults to the repository
+    # name singularized (e.g. rf-proxies -> rf-proxy); set a
+    # FIRMWARE_DIRECTORY repository variable to override it.
+    uses: esphome/workflows/.github/workflows/publish-firmware-to-r2.yml@31d160e5f0ffa0ee65d5b27cb55c153d415f2abe  # 2026.10.2
+    secrets: inherit
