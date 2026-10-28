@@ -11,9 +11,12 @@ on:
 # The called workflow authenticates every step with the ESPHome GitHub App
 # token (via vars.ESPHOME_GITHUB_APP_CLIENT_ID and the inherited
 # ESPHOME_GITHUB_APP_PRIVATE_KEY secret) so that publishing fires a
-# `release: published` event downstream; GITHUB_TOKEN is never used. It also
-# runs in this repo's `release` environment.
-permissions: {}
+# `release: published` event downstream. The called job still declares
+# contents: write (for its GITHUB_TOKEN fallback), and a reusable workflow
+# cannot exceed the caller's permissions, so grant it here. It also runs in
+# this repo's `release` environment.
+permissions:
+  contents: write
 
 jobs:
   release:
