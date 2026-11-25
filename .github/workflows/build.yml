@@ -25,4 +25,4 @@ jobs:
     # draft release. On pull_request/workflow_dispatch it only builds.
     uses: esphome/workflows/.github/workflows/build-to-draft-release.yml@b2c0cffae477d81175c67e6a44651a9bc2b49f6f  # 2026.11.0
     with:
-      esphome-version: 2026.11.0
+      esphome-version: 2026.11.1
